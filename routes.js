@@ -14,6 +14,13 @@ function isAlive(request, response){
 	});
 }
 
+function listAllMembers(request, response) {
+	business.listAllMembers(function(err, statusResponse) {
+		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
+		response.end(JSON.stringify(statusResponse));
+	})
+}
+
 function insertMembers(request, response) {
 	business.insertMembers(function(err, statusResponse) {
 		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
@@ -21,4 +28,5 @@ function insertMembers(request, response) {
 	})
 }
 exports.isAlive = isAlive;
+exports.listAllMembers = listAllMembers;
 exports.insertMembers = insertMembers;

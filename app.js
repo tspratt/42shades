@@ -21,6 +21,7 @@ app.all('/*', function (req, res, next) {
 
 app.get('/', routes.isAlive);
 app.get('/isAlive', routes.isAlive);
+app.get('/listAllMembers', routes.listAllMembers);
 //app.get('/insertMembers', routes.insertMembers);
 
 model.initDb(function(err, db){
