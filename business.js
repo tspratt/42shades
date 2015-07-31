@@ -54,12 +54,39 @@ function listMembers(filterSpec,pageSpec, callback){
 	});
 }
 
+function filterMembersByName(matchString, callback){
+	model.filterMembersByName(matchString,function(err, aMembers){
+		if (err) {
+			var statusResponse = new StatusResponse('error','filterMembersByName','','business',err);
+		}
+		else {
+			var statusResponse = new StatusResponse('success','filterMembersByName','','business',aMembers);
+		}
+
+		callback(err,statusResponse);
+	});
+}
+
+function getMember(id, callback){
+	model.getMember(id,function(err, aMembers){
+		if (err) {
+			var statusResponse = new StatusResponse('error','v','','business',err);
+		}
+		else {
+			var statusResponse = new StatusResponse('success','getMember','','business',aMembers);
+		}
+
+		callback(err,statusResponse);
+	});
+}
+
 function insertMembers(callback){
 	model.insertMembers(callback);
 
 }
 
-
+exports.getMember = getMember;
+exports.filterMembersByName = filterMembersByName;
 exports.isAlive = isAlive;
 exports.listMembers = listMembers;
 exports.listAllMembers = listAllMembers;

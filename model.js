@@ -16,6 +16,7 @@ var Server = require('mongodb').Server
 var server = new Server('localhost',27017);
 var mongoDb = require('mongodb').Db;
 var db = new mongoDb('shades', server, {safe: true});
+var ObjectId = require('mongodb').ObjectID;
 
 function initDb(callback) {
     logger.info('model.initDb');
@@ -100,24 +101,16 @@ function listMembers(filterSpec, pageSpec,callback){
                 }
             });
       });
-
 }
 
-
-function listMembers2(filterSpec, pageSpec,callback){
+function filterMembersByName(matchString, callback){
     var oMember;
     db.collection('members', {safe: true},
       function(err, collection){
-          var iSkip = pageSpec.pageNum * pageSpec.pageLength;
-          //var oQuery = {};
-          //if (filterSpec) {
-          //    var sQuery = '{"' + filterSpec.field + '":"' + filterSpec.value + '"}';
-          //    oQuery = JSON.parse(sQuery);
-          //}
-
-          var aMembers = collection.find({})
-            .skip(iSkip)
-            .limit(pageSpec.pageLength)
+          var aMembers = collection.find({$or:[
+            {"first_name": new RegExp(matchString,'i')},
+            {"last_name": new RegExp(matchString,'i')}
+          ]})
             .toArray(function (err, data) {
                 if (err) {
                     callback(err, null);
@@ -126,8 +119,8 @@ function listMembers2(filterSpec, pageSpec,callback){
                 }
             });
       });
-
 }
+
 
 /**
  * run only once!
@@ -144,6 +137,22 @@ function insertMembers(){
               }
           });
       });
+
+}
+
+function getMember(id, callback){
+  var oMember;
+  db.collection('members', {safe: true},
+    function(err, collection){
+      var oId = new ObjectId(id);
+      collection.findOne({_id: oId},function (err, data) {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, data);
+        }
+      });
+    });
 
 }
 
@@ -1252,6 +1261,8 @@ var members =
       }
   ]
 
+exports.getMember = getMember;
+exports.filterMembersByName = filterMembersByName;
 exports.listMembers = listMembers;
 exports.listAllMembers = listAllMembers;
 exports.listMembersPaged = listMembersPaged;

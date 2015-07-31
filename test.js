@@ -4,7 +4,7 @@ var chai = require("chai");
 var expect = chai.expect;
 var packageJson = require('./package.json');
 var model = require('./model');
-
+var ObjectId = require('mongodb').ObjectID;
 var business = require('./business');
 
 var StatusResponse = require('./lib/statusResponse').StatusResponse;
@@ -19,13 +19,13 @@ function asyncAssertionCheck(done, f) {
 	}
 }
 
-describe('Shell Functionality', function () {
+describe('Setup tests', function () {
 	this.timeout(0);
 	before(function (done) {
 		model.initDb(
 				function (err) {
 					if (err) {
-						var statusResponse = new StatusResponse('error', 'System Error. Please try again', constants.STATUS_CODE_UNSPECIFIED, 'initDb', err);
+						var statusResponse = new StatusResponse('error', 'System Error. Please try again', '', 'initDb', err);
 						console.log(JSON.stringify(statusResponse));
 						done(err);
 					}
@@ -129,6 +129,34 @@ describe('Shell Functionality', function () {
 							expect(statusResponse.data).to.exist;
 							expect(statusResponse.data).to.be.an.array;
 							expect(statusResponse.data.length).to.be.lessThan(prevValue);
+						});
+					}
+				);
+			});
+			it('should return filtered list using contains', function (done) {
+				var matchString = 'han';
+				business.filterMembersByName(matchString,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							var elem0 = statusResponse.data[0];
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							var sTmp = elem0.first_name + elem0.last_name;
+							expect(sTmp.indexOf(matchString)).to.be.greaterThan(-1);  //make sure our match string is in our result somewhere
+						});
+					}
+				);
+			});
+			it.only('should return a single document by Id', function (done) {
+				var id = '55b996ead4dbc1641d7239bd';
+				business.getMember(id,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.object;
+							expect(statusResponse.data._id.toString()).to.equal(id);  //make sure our match string is in our result somewhere
 						});
 					}
 				);
