@@ -35,45 +35,6 @@ function initDb(callback) {
 
 }//
 
-function listAllMembers(callback){
-    var oMember;
-    db.collection('members', {safe: true},
-      function(err, collection){
-          var aMembers = collection.find({}).toArray(function (err, data) {
-              if (err) {
-                  callback(err, null);
-              } else {
-                  callback(null, data);
-              }
-          });
-      });
-
-}
-
-
-function listMembersPaged(pageSpec,callback){
-    var oMember;
-    db.collection('members', {safe: true},
-      function(err, collection){
-          var iSkip = 0;
-          var iLimit = 0;
-          if (pageSpec) {
-              iSkip = pageSpec.pageNum * pageSpec.pageLength;
-              iLimit = pageSpec.pageLength;
-          }
-          var aMembers = collection.find({})
-            .skip(iSkip)
-            .limit(iLimit)
-            .toArray(function (err, data) {
-              if (err) {
-                  callback(err, null);
-              } else {
-                  callback(null, data);
-              }
-          });
-      });
-
-}
 
 function listMembers(filterSpec, pageSpec,callback){
     var oMember;
@@ -1264,10 +1225,8 @@ var members =
 exports.getMember = getMember;
 exports.filterMembersByName = filterMembersByName;
 exports.listMembers = listMembers;
-exports.listAllMembers = listAllMembers;
-exports.listMembersPaged = listMembersPaged;
 exports.db = db;
 exports.initDb = initDb;
-exports.insertMembers = insertMembers;
+//exports.insertMembers = insertMembers;
 
 

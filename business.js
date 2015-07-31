@@ -15,31 +15,6 @@ function isAlive(callback){
 
 }
 
-function listAllMembers(callback){
-	model.listAllMembers(function(err, aMembers){
-		if (err) {
-			var statusResponse = new StatusResponse('error','listAllMembers','','business',err);
-		}
-		else {
-			var statusResponse = new StatusResponse('success','listAllMembers','','business',aMembers);
-		}
-
-		callback(err,statusResponse);
-	});
-}
-
-function listMembersPaged(pageSpec, callback){
-	model.listMembersPaged(pageSpec,function(err, aMembers){
-		if (err) {
-			var statusResponse = new StatusResponse('error','listMembersPaged','','business',err);
-		}
-		else {
-			var statusResponse = new StatusResponse('success','listMembersPaged','','business',aMembers);
-		}
-
-		callback(err,statusResponse);
-	});
-}
 
 function listMembers(filterSpec,pageSpec, callback){
 	model.listMembers(filterSpec, pageSpec,function(err, aMembers){
@@ -89,9 +64,7 @@ exports.getMember = getMember;
 exports.filterMembersByName = filterMembersByName;
 exports.isAlive = isAlive;
 exports.listMembers = listMembers;
-exports.listAllMembers = listAllMembers;
-exports.listMembersPaged = listMembersPaged;
-exports.insertMembers = insertMembers;
+//exports.insertMembers = insertMembers;
 
 
 

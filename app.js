@@ -21,10 +21,9 @@ app.all('/*', function (req, res, next) {
 
 app.get('/', routes.isAlive);
 app.get('/isAlive', routes.isAlive);
-app.get('/listAllMembers', routes.listAllMembers);
-app.get('/listMembers', routes.listMembers);
-app.get('/filterMembersByName', routes.filterMembersByName);
-app.get('/getMember', routes.getMember);
+app.get('/members', routes.listMembers);
+app.get('/members-match/:matchstring', routes.filterMembersByName);
+app.get('/members/:oid', routes.getMember);
 //app.get('/insertMembers', routes.insertMembers);
 
 model.initDb(function(err, db){

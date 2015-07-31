@@ -10,14 +10,14 @@ var StatusResponse = require('./lib/statusResponse').StatusResponse;
 function isAlive(request, response){
 	business.isAlive(function(err, statusResponse) {
 		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
-		response.end(JSON.stringify(statusResponse));
+		response.end(statusResponse);
 	});
 }
 
 function listAllMembers(request, response) {
 	business.listAllMembers(function(err, statusResponse) {
 		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
-		response.end(JSON.stringify(statusResponse));
+		response.end(statusResponse);
 	})
 }
 
@@ -36,31 +36,27 @@ function listMembers(request, response) {
 	}
 
 	business.listMembers(filterSpec, pageSpec, function(err, statusResponse) {
-		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
-		response.end(JSON.stringify(statusResponse));
+		response.send(statusResponse);
 	})
 }
 
 function filterMembersByName(request, response) {
-	var matchstring = request.query.matchstring || '';
+	var matchstring = request.params.matchstring || '';
 	business.filterMembersByName(matchstring, function(err, statusResponse) {
-		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
-		response.end(JSON.stringify(statusResponse));
+		response.send(statusResponse);
 	});
 }
 
 function getMember(request, response) {
-	var sOId = request.query.oid || '';
+	var sOId = request.params.oid || '';
 	business.getMember(sOId, function(err, statusResponse) {
-		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
-		response.end(JSON.stringify(statusResponse));
+		response.send(statusResponse);
 	});
 }
 
 function insertMembers(request, response) {
 	business.insertMembers(function(err, statusResponse) {
-		response.writeHead(200, 'success', {'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*'});
-		response.end(JSON.stringify(statusResponse));
+		response.send(statusResponse);
 	})
 }
 
@@ -68,5 +64,4 @@ exports.getMember = getMember;
 exports.filterMembersByName = filterMembersByName;
 exports.isAlive = isAlive;
 exports.listMembers = listMembers;
-exports.listAllMembers = listAllMembers;
-exports.insertMembers = insertMembers;
+//exports.insertMembers = insertMembers;
