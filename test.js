@@ -8,6 +8,7 @@ var model = require('./model');
 var business = require('./business');
 
 var StatusResponse = require('./lib/statusResponse').StatusResponse;
+var prevValue = '';
 
 function asyncAssertionCheck(done, f) {
 	try {
@@ -61,6 +62,73 @@ describe('Shell Functionality', function () {
 							expect(err).to.not.exist;
 							expect(statusResponse.data).to.exist;
 							expect(statusResponse.data).to.be.an.array;
+							prevValue = statusResponse.data.length;
+						});
+					}
+				);
+			});
+			it('should return a page of 10 members', function (done) {
+				var pageSpec = {pageLength:10, pageNum: 0};
+				business.listMembersPaged(pageSpec,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+						});
+					}
+				);
+			});
+			it('should return a page of 20 members', function (done) {
+				var pageSpec = {pageLength:20, pageNum: 0};
+				business.listMembersPaged(pageSpec,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+						});
+					}
+				);
+			});
+			it('should return a page of 50 members', function (done) {
+				var pageSpec = {pageLength:50, pageNum: 0};
+				business.listMembersPaged(pageSpec,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+						});
+					}
+				);
+			});
+			it('should return a page of All members with null pageSpec', function (done) {
+				var pageSpec = null;
+				business.listMembersPaged(pageSpec,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.equal(prevValue);
+						});
+					}
+				);
+			});
+			it('should return a page filtered of members', function (done) {
+				var filterSpec = {field:'state', value: 'GA'};
+				var pageSpec = {pageLength:50, pageNum: 0};
+				business.listMembers(filterSpec,pageSpec,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.be.lessThan(prevValue);
 						});
 					}
 				);

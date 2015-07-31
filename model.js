@@ -49,6 +49,86 @@ function listAllMembers(callback){
 
 }
 
+
+function listMembersPaged(pageSpec,callback){
+    var oMember;
+    db.collection('members', {safe: true},
+      function(err, collection){
+          var iSkip = 0;
+          var iLimit = 0;
+          if (pageSpec) {
+              iSkip = pageSpec.pageNum * pageSpec.pageLength;
+              iLimit = pageSpec.pageLength;
+          }
+          var aMembers = collection.find({})
+            .skip(iSkip)
+            .limit(iLimit)
+            .toArray(function (err, data) {
+              if (err) {
+                  callback(err, null);
+              } else {
+                  callback(null, data);
+              }
+          });
+      });
+
+}
+
+function listMembers(filterSpec, pageSpec,callback){
+    var oMember;
+    db.collection('members', {safe: true},
+      function(err, collection){
+          var iSkip = 0;
+          var iLimit = 0;
+          if (pageSpec) {
+              iSkip = pageSpec.pageNum * pageSpec.pageLength;
+              iLimit = pageSpec.pageLength;
+          }
+          var oQuery = {};
+          if (filterSpec) {
+              var sQuery = '{"' + filterSpec.field + '":"' + filterSpec.value + '"}';
+              oQuery = JSON.parse(sQuery);
+          }
+          var aMembers = collection.find(oQuery)
+            .skip(iSkip)
+            .limit(iLimit)
+            .toArray(function (err, data) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, data);
+                }
+            });
+      });
+
+}
+
+
+function listMembers2(filterSpec, pageSpec,callback){
+    var oMember;
+    db.collection('members', {safe: true},
+      function(err, collection){
+          var iSkip = pageSpec.pageNum * pageSpec.pageLength;
+          //var oQuery = {};
+          //if (filterSpec) {
+          //    var sQuery = '{"' + filterSpec.field + '":"' + filterSpec.value + '"}';
+          //    oQuery = JSON.parse(sQuery);
+          //}
+
+          var aMembers = collection.find({})
+            .skip(iSkip)
+            .limit(pageSpec.pageLength)
+            .toArray(function (err, data) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, data);
+                }
+            });
+      });
+
+}
+
 /**
  * run only once!
  */
@@ -1172,7 +1252,9 @@ var members =
       }
   ]
 
+exports.listMembers = listMembers;
 exports.listAllMembers = listAllMembers;
+exports.listMembersPaged = listMembersPaged;
 exports.db = db;
 exports.initDb = initDb;
 exports.insertMembers = insertMembers;
