@@ -26,6 +26,10 @@ app.get('/members-match/:matchstring', routes.filterMembersByName);
 app.get('/members/:oid', routes.getMember);
 //app.get('/insertMembers', routes.insertMembers);
 
+app.get('*', function(req, res) {
+  res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+});
+
 model.initDb(function(err, db){
   app.listen(8080);
   console.log('app listening on port 8080')
