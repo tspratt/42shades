@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 10px;
   font: 12px "Oswald" ;
   font-weight: bold;
   color:steelblue;
@@ -29,13 +29,11 @@ input.match-string {
 }
 
 button:hover {
-  filter: brightness(75%);
-  /*background-color:rgba(0, 0, 0, 0.1);*/
+  color:rgba(0, 0, 0, 0.75);
 }
 
 button:active {
-  filter: brightness(75%);
-  /*background-color:rgba(0, 0, 0, 0.1);*/
+  color:rgba(0, 0, 0, 0.75);
   opacity: 0.60;
 }
 
@@ -57,9 +55,16 @@ a {
 .horiz-menu a {
   padding-right:20px;
   width: 100px;
+  color:darkslateblue;
+  text-decoration: none;
 }
 .horiz-menu li.selected {
-  filter: brightness(75%);
+  color:rgba(0, 0, 0, 0.75);
+  opacity: 0.60;
+  text-decoration: underline;
+}
+.horiz-menu li:hover {
+  color:rgba(0, 0, 0, 0.75);
   opacity: 0.60;
 }
 .header {
@@ -72,10 +77,10 @@ a {
   cursor: pointer;
 }
 .fullNameCol:hover {
-  filter: brightness(75%);
+  color:rgba(0, 0, 0, 0.75);
 }
 .selected-member {
-  filter: brightness(75%);
+  color:rgba(0, 0, 0, 0.75);
   opacity: 0.60;
 }
 .container{

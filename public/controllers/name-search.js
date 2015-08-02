@@ -18,6 +18,9 @@ angular.module('club42')
             .then(function (res) {
               if (res.status >= 200 && res.status < 300) {
                 $scope.members = res.data.data;
+                if ($scope.members.length === 1) {
+                  $scope.member = $scope.members[0];
+                }
               }
               else {
                 console.log('HTTP Error: ' + res.statusText);

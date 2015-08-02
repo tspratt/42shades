@@ -4,7 +4,7 @@ angular.module('club42')
       $scope.members = [];
       $scope.member = {};
       $scope.pageNum = 0;
-      $scope.pageLen = 10;
+      $scope.pageLen = "10";
 
       function initModule(){
         getMembers();
@@ -38,10 +38,13 @@ angular.module('club42')
 
       function getMembers () {
         $scope.member = null;
-        memberData.getMembers($scope.pageNum,$scope.pageLen,null,null, false)
+        memberData.getMembers($scope.pageNum,parseInt($scope.pageLen),null,null, false)
           .then(function (res) {
             if (res.status >= 200 && res.status < 300) {
               $scope.members = res.data.data;
+              if ($scope.members.length === 1) {
+                $scope.member = $scope.members[0];
+              }
             }
             else {
               console.log('HTTP Error: ' + res.statusText);

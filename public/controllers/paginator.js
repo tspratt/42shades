@@ -6,12 +6,20 @@ angular.module('club42')
 
       $scope.nextPage = function (){
         console.log('nextPage');
+        $scope.pageNum ++;
+        getMembers();
       };
       $scope.prevPage = function (){
         console.log('prevPage');
+        if ($scope.pageNum > 0) {
+          $scope.pageNum --;
+          getMembers();
+        }
       };
       $scope.firstPage = function (){
         console.log('firstPage');
+        $scope.pageNum = 0;
+        getMembers();
       };
       $scope.lastPage = function (){
 
@@ -19,7 +27,8 @@ angular.module('club42')
 
       $scope.onChangePageLen = function(){
         console.log('onChangePageLen');
-      }
+        //getMembers();
+      };
 
 }])
   .directive('paginator', function() {
