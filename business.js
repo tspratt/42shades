@@ -30,8 +30,8 @@ function listMembers(filterSpec,pageSpec, fieldSpec, callback){
 	});
 }
 
-function filterMembersByName(matchString, callback){
-	model.filterMembersByName(matchString,function(err, aMembers){
+function filterMembersByName(matchString, oFieldSpec, callback){
+	model.filterMembersByName(matchString,oFieldSpec,function(err, aMembers){
 		if (err) {
 			var statusResponse = new StatusResponse('error','filterMembersByName','','business',err);
 		}

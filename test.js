@@ -136,7 +136,7 @@ describe('Setup tests', function () {
 					}
 				);
 			});
-			it('should return a page of members, filtered', function (done) {
+			it('should return a page of members, filtered by state=GA', function (done) {
 				var filterSpec = {field:'state', value: 'GA'};
 				var pageSpec = {pageLength:50, pageNum: 0};
 				business.listMembers(filterSpec,pageSpec, null,
@@ -152,15 +152,28 @@ describe('Setup tests', function () {
 			});
 			it('should return filtered list using contains', function (done) {
 				var matchString = 'han';
-				business.filterMembersByName(matchString,
+				business.filterMembersByName(matchString, {},
 					function (err, statusResponse) {
 						asyncAssertionCheck(done, function () {
-							var elem0 = statusResponse.data[0];
 							expect(err).to.not.exist;
 							expect(statusResponse.data).to.exist;
 							expect(statusResponse.data).to.be.an.array;
+							var elem0 = statusResponse.data[0];
 							var sTmp = elem0.first_name + elem0.last_name;
 							expect(sTmp.indexOf(matchString)).to.be.greaterThan(-1);  //make sure our match string is in our result somewhere
+						});
+					}
+				);
+			});
+			it('should return filtered list with reduced payload', function (done) {
+				var matchString = 'han';
+				business.filterMembersByName(matchString, {first_name:1, last_name:1},
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data[0].city).to.not.exist;
 						});
 					}
 				);

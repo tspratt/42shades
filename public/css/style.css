@@ -33,3 +33,30 @@ button:active {
 a {
   color: #00B7FF;
 }
+
+.horiz-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.horiz-menu li {
+  float: left;
+}
+
+.horiz-menu a {
+  padding-right:20px;
+  width: 100px;
+}
+.horiz-menu li.selected {
+  filter: brightness(75%);
+  /*background-color:rgba(0, 0, 0, 0.1);*/
+  opacity: 0.60;
+}
+.header {
+  font-size: large;
+}
+.description {
+  font-size: small;
+}

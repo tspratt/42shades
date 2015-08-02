@@ -29,10 +29,22 @@ function listMembers(request, response) {
 	var pageNum = request.query.pageNum;
 	var pageLength = request.query.pageLength;
 	var matchstring = request.query.matchstring;
-	var fieldSpec = request.query.fieldSpec || {};
+	var sFieldSpec = request.query.fieldSpec;						//string representation
+	var oFieldSpec = {};																//parsed object
+	if (sFieldSpec) {
+		try {
+			oFieldSpec = JSON.parse(sFieldSpec);
+		}
+		catch (error){
+			var statusResponse = new StatusResponse('error','invalid fieldSpec parameter','','routes.listMembers',{config:sFieldSpec});
+			response.send(statusResponse);
+			return;
+		}
+
+	}
 
 	if (matchstring) {
-		business.filterMembersByName(matchstring, function (err, statusResponse) {
+		business.filterMembersByName(matchstring, oFieldSpec, function (err, statusResponse) {
 			response.send(statusResponse);
 		});
 	}
@@ -43,17 +55,11 @@ function listMembers(request, response) {
 		if (pageNum && pageLength) {
 			pageSpec = {pageLength: parseInt(pageLength), pageNum: parseInt(pageNum)};
 		}
-		business.listMembers(filterSpec, pageSpec, fieldSpec, function (err, statusResponse) {
+
+		business.listMembers(filterSpec, pageSpec, oFieldSpec, function (err, statusResponse) {
 			response.send(statusResponse);
 		})
 	}
-}
-
-function filterMembersByName(request, response) {
-	var matchstring = request.params.matchstring || '';
-	business.filterMembersByName(matchstring, function(err, statusResponse) {
-		response.send(statusResponse);
-	});
 }
 
 
@@ -71,7 +77,6 @@ function insertMembers(request, response) {
 }
 
 exports.getMember = getMember;
-exports.filterMembersByName = filterMembersByName;
 exports.isAlive = isAlive;
 exports.listMembers = listMembers;
 //exports.insertMembers = insertMembers;

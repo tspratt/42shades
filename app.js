@@ -22,7 +22,6 @@ app.all('/*', function (req, res, next) {
 app.get('/', routes.isAlive);
 app.get('/isAlive', routes.isAlive);
 app.get('/members', routes.listMembers);
-app.get('/members-match/:matchstring', routes.filterMembersByName);
 app.get('/members/:oid', routes.getMember);
 //app.get('/insertMembers', routes.insertMembers);
 
@@ -32,7 +31,7 @@ app.get('*', function(req, res) {
 
 model.initDb(function(err, db){
   app.listen(8080);
-  console.log('app listening on port 8080')
+  console.log('Club42 app listening on port 8080')
 });
 
 

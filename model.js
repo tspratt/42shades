@@ -36,7 +36,7 @@ function initDb(callback) {
 }//
 
 
-function listMembers(filterSpec, pageSpec, fieldSpec, callback){
+function listMembers(filterSpec, pageSpec, oFieldSpec, callback){
     var oMember;
     db.collection('members', {safe: true},
       function(err, collection){
@@ -51,7 +51,7 @@ function listMembers(filterSpec, pageSpec, fieldSpec, callback){
               var sQuery = '{"' + filterSpec.field + '":"' + filterSpec.value + '"}';
               oQuery = JSON.parse(sQuery);
           }
-          var aMembers = collection.find(oQuery, fieldSpec)
+          var aMembers = collection.find(oQuery, oFieldSpec)
             .skip(iSkip)
             .limit(iLimit)
             .toArray(function (err, data) {
@@ -64,14 +64,14 @@ function listMembers(filterSpec, pageSpec, fieldSpec, callback){
       });
 }
 
-function filterMembersByName(matchString, callback){
+function filterMembersByName(matchString, oFieldSpec, callback){
     var oMember;
     db.collection('members', {safe: true},
       function(err, collection){
           var aMembers = collection.find({$or:[
             {"first_name": new RegExp(matchString,'i')},
             {"last_name": new RegExp(matchString,'i')}
-          ]})
+          ]}, oFieldSpec)
             .toArray(function (err, data) {
                 if (err) {
                     callback(err, null);
