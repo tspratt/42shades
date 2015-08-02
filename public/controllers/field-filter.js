@@ -10,6 +10,10 @@ angular.module('club42')
         document.getElementById('inputFilterValue').focus();
       }
 
+      $scope.onChangeField = function(){
+        document.getElementById('inputFilterValue').focus();
+      };
+
       $scope.onClickFilter = function(){
         $scope.member = null;
         memberData.getMembers(0,0,$scope.filterField, $scope.filterValue, false)
