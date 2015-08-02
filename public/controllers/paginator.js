@@ -1,7 +1,7 @@
 angular.module('club42')
   .controller('Paginator', ['$scope', '$state', 'appConstants', 'memberData',
     function($scope, $state, appConstants, memberData) {
-      $scope.pageNum = 10;
+     /* $scope.pageNum = 10;
       $scope.pageLen = 10;
 
       $scope.nextPage = function (){
@@ -28,13 +28,17 @@ angular.module('club42')
       $scope.onChangePageLen = function(){
         console.log('onChangePageLen');
         //getMembers();
-      };
+      };*/
 
 }])
   .directive('paginator', function() {
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'partials/paginator.html'
+      templateUrl: 'partials/paginator.html',
+      /*controller: 'Paginator',
+      scope: {
+        fetchPage: '&'
+      }*/
     }
   });

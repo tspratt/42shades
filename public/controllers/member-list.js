@@ -3,6 +3,9 @@ angular.module('club42')
     function($scope, $state, appConstants, memberData) {
       $scope.members = [];
       $scope.member = {};
+      var totalCount = 100;
+
+      //paginator code: TODO: move into directive
       $scope.pageNum = 0;
       $scope.pageLen = "10";
 
@@ -12,8 +15,12 @@ angular.module('club42')
 
       $scope.nextPage = function (){
         console.log('nextPage');
-        $scope.pageNum ++;
-        getMembers();
+        var iPageLen = parseInt($scope.pageLen);
+        if ((iPageLen * ($scope.pageNum+1)) < totalCount){
+          $scope.pageNum ++;
+          getMembers();
+        }
+
       };
       $scope.prevPage = function (){
         console.log('prevPage');
@@ -28,13 +35,17 @@ angular.module('club42')
         getMembers();
       };
       $scope.lastPage = function (){
-
+        var iPageLen = parseInt($scope.pageLen);
+        $scope.pageNum = Math.floor(totalCount / iPageLen) - 1;
+        getMembers();
       };
 
       $scope.onChangePageLen = function(){
         console.log('onChangePageLen');
+        $scope.pageNum = 0;
         getMembers();
       };
+      //END paginator code
 
       function getMembers () {
         $scope.member = null;
