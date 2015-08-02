@@ -36,7 +36,7 @@ function initDb(callback) {
 }//
 
 
-function listMembers(filterSpec, pageSpec,callback){
+function listMembers(filterSpec, pageSpec, fieldSpec, callback){
     var oMember;
     db.collection('members', {safe: true},
       function(err, collection){
@@ -51,7 +51,7 @@ function listMembers(filterSpec, pageSpec,callback){
               var sQuery = '{"' + filterSpec.field + '":"' + filterSpec.value + '"}';
               oQuery = JSON.parse(sQuery);
           }
-          var aMembers = collection.find(oQuery)
+          var aMembers = collection.find(oQuery, fieldSpec)
             .skip(iSkip)
             .limit(iLimit)
             .toArray(function (err, data) {

@@ -16,8 +16,9 @@ function isAlive(callback){
 }
 
 
-function listMembers(filterSpec,pageSpec, callback){
-	model.listMembers(filterSpec, pageSpec,function(err, aMembers){
+function listMembers(filterSpec,pageSpec, fieldSpec, callback){
+	fieldSpec = fieldSpec || {};																							//send an empty object if parameter not provided
+	model.listMembers(filterSpec, pageSpec, fieldSpec, function(err, aMembers){
 		if (err) {
 			var statusResponse = new StatusResponse('error','listMembers','','business',err);
 		}

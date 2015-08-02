@@ -28,16 +28,25 @@ function listMembers(request, response) {
 	var value = request.query.value;
 	var pageNum = request.query.pageNum;
 	var pageLength = request.query.pageLength;
-	if (field && value)  {
-		filterSpec = {field:field, value: value };
-	}
-	if (pageNum && pageLength) {
-		pageSpec = {pageLength: parseInt(pageLength), pageNum: parseInt(pageNum)};
-	}
+	var matchstring = request.query.matchstring;
+	var fieldSpec = request.query.fieldSpec || {};
 
-	business.listMembers(filterSpec, pageSpec, function(err, statusResponse) {
-		response.send(statusResponse);
-	})
+	if (matchstring) {
+		business.filterMembersByName(matchstring, function (err, statusResponse) {
+			response.send(statusResponse);
+		});
+	}
+	else {
+		if (field && value) {
+			filterSpec = {field: field, value: value};
+		}
+		if (pageNum && pageLength) {
+			pageSpec = {pageLength: parseInt(pageLength), pageNum: parseInt(pageNum)};
+		}
+		business.listMembers(filterSpec, pageSpec, fieldSpec, function (err, statusResponse) {
+			response.send(statusResponse);
+		})
+	}
 }
 
 function filterMembersByName(request, response) {
@@ -46,6 +55,7 @@ function filterMembersByName(request, response) {
 		response.send(statusResponse);
 	});
 }
+
 
 function getMember(request, response) {
 	var sOId = request.params.oid || '';

@@ -56,33 +56,62 @@ describe('Setup tests', function () {
 	describe('Test Data Access (business)',
 		function () {
 			it('should return a list of all members', function (done) {
-				business.listAllMembers(
+				business.listMembers(null,null, null,
 					function (err, statusResponse) {
 						asyncAssertionCheck(done, function () {
 							expect(err).to.not.exist;
 							expect(statusResponse.data).to.exist;
 							expect(statusResponse.data).to.be.an.array;
-							prevValue = statusResponse.data.length;
 						});
 					}
 				);
 			});
+
 			it('should return a page of 10 members', function (done) {
 				var pageSpec = {pageLength:10, pageNum: 0};
-				business.listMembersPaged(pageSpec,
+				business.listMembers(null, pageSpec, null,
 					function (err, statusResponse) {
 						asyncAssertionCheck(done, function () {
 							expect(err).to.not.exist;
 							expect(statusResponse.data).to.exist;
 							expect(statusResponse.data).to.be.an.array;
 							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+							prevValue = statusResponse.data[0]._id;																//for compare later
+						});
+					}
+				);
+			});
+			it('should return a different page of 10 members', function (done) {
+				var pageSpec = {pageLength:10, pageNum: 1};
+				business.listMembers(null, pageSpec, null,
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+							expect(statusResponse.data[0]._id).to.not.equal(prevValue);
+						});
+					}
+				);
+			});
+			it('should return a page of 10 members with reduced payload', function (done) {
+				var pageSpec = {pageLength:10, pageNum: 1};
+				business.listMembers(null, pageSpec, {first_name:1, last_name:1},
+					function (err, statusResponse) {
+						asyncAssertionCheck(done, function () {
+							expect(err).to.not.exist;
+							expect(statusResponse.data).to.exist;
+							expect(statusResponse.data).to.be.an.array;
+							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+							expect(statusResponse.data[0].city).to.not.exist;
 						});
 					}
 				);
 			});
 			it('should return a page of 20 members', function (done) {
 				var pageSpec = {pageLength:20, pageNum: 0};
-				business.listMembersPaged(pageSpec,
+				business.listMembers(null, pageSpec, null,
 					function (err, statusResponse) {
 						asyncAssertionCheck(done, function () {
 							expect(err).to.not.exist;
@@ -95,34 +124,22 @@ describe('Setup tests', function () {
 			});
 			it('should return a page of 50 members', function (done) {
 				var pageSpec = {pageLength:50, pageNum: 0};
-				business.listMembersPaged(pageSpec,
+				business.listMembers(null, pageSpec, null,
 					function (err, statusResponse) {
 						asyncAssertionCheck(done, function () {
 							expect(err).to.not.exist;
 							expect(statusResponse.data).to.exist;
 							expect(statusResponse.data).to.be.an.array;
 							expect(statusResponse.data.length).to.equal(pageSpec.pageLength);
+							prevValue = statusResponse.data.length;																//for compare later
 						});
 					}
 				);
 			});
-			it('should return a page of All members with null pageSpec', function (done) {
-				var pageSpec = null;
-				business.listMembersPaged(pageSpec,
-					function (err, statusResponse) {
-						asyncAssertionCheck(done, function () {
-							expect(err).to.not.exist;
-							expect(statusResponse.data).to.exist;
-							expect(statusResponse.data).to.be.an.array;
-							expect(statusResponse.data.length).to.equal(prevValue);
-						});
-					}
-				);
-			});
-			it('should return a page filtered of members', function (done) {
+			it('should return a page of members, filtered', function (done) {
 				var filterSpec = {field:'state', value: 'GA'};
 				var pageSpec = {pageLength:50, pageNum: 0};
-				business.listMembers(filterSpec,pageSpec,
+				business.listMembers(filterSpec,pageSpec, null,
 					function (err, statusResponse) {
 						asyncAssertionCheck(done, function () {
 							expect(err).to.not.exist;
@@ -148,7 +165,7 @@ describe('Setup tests', function () {
 					}
 				);
 			});
-			it.only('should return a single document by Id', function (done) {
+			it('should return a single document by Id', function (done) {
 				var id = '55b996ead4dbc1641d7239bd';
 				business.getMember(id,
 					function (err, statusResponse) {
