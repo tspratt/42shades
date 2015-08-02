@@ -4,6 +4,7 @@ angular.module('club42')
       $scope.members = [];
       $scope.member = null;
       $scope.selectedId = '';
+      $scope.selectedId = '';
       $scope.matchString = '';
 
       function initModule(){
@@ -14,6 +15,7 @@ angular.module('club42')
       $scope.onChangeMatchString = function () {
         $timeout(function () {
           $scope.member = null;
+          $scope.selectedId = '';
           memberData.getMembersByNameMatch($scope.matchString)
             .then(function (res) {
               if (res.status >= 200 && res.status < 300) {

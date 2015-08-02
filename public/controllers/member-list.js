@@ -3,6 +3,7 @@ angular.module('club42')
     function($scope, $state, appConstants, memberData) {
       $scope.members = [];
       $scope.member = {};
+      $scope.selectedId = '';
       var totalCount = 100;
 
       //paginator code: TODO: move into directive
@@ -49,6 +50,7 @@ angular.module('club42')
 
       function getMembers () {
         $scope.member = null;
+        $scope.selectedId = '';
         memberData.getMembers($scope.pageNum,parseInt($scope.pageLen),null,null, false)
           .then(function (res) {
             if (res.status >= 200 && res.status < 300) {

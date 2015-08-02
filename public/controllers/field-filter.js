@@ -3,6 +3,7 @@ angular.module('club42')
     function($scope, $state, appConstants, memberData) {
       $scope.members = [];
       $scope.member = null;
+      $scope.selectedId = '';
       $scope.filterField = 'state';
       $scope.filterValue = '';
 
@@ -16,6 +17,7 @@ angular.module('club42')
 
       $scope.onClickFilter = function(){
         $scope.member = null;
+        $scope.selectedId = '';
         memberData.getMembers(0,0,$scope.filterField, $scope.filterValue, false)
           .then(function (res) {
             if (res.status >= 200 && res.status < 300) {
