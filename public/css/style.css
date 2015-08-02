@@ -75,9 +75,8 @@ a {
   filter: brightness(75%);
 }
 .selected-member {
-  filter: brightness(75%)!important;
-  opacity: 0.60!important;
-  font-size:24px!important;
+  filter: brightness(75%);
+  opacity: 0.60;
 }
 .container{
   display:table;
@@ -98,4 +97,32 @@ a {
   width:50px;
   font-weight: bold;
   color:steelblue;
+}
+.form-value {
+  color: #000000;
+}
+button.paginator {
+  padding: 0;
+  margin: 0;
+  width: 30px;
+}
+select.paginator {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+button.paginator:focus {
+  outline: 0;
+}
+.paginator-label{
+  float:left;
+  width:30px;
+  font-weight: bold;
+  color:steelblue;
+  margin-left:5px;
+}
+.paginator-value{
+  color: #000000;
+}
+.paginator-label.page-num{
+  width: 50px;
 }
