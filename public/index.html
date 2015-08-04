@@ -16,9 +16,10 @@
 <div class="container" ng-controller="MainCtrl">
   <span class="header">Club 42</span>
   <span class="description">&nbsp;(The Answer to Everything)</span>
+  <span class="log-out" ng-show="isLoggedIn" ng-click="isLoggedIn=false">log out</span>
   <br>
   <div class="content">
-    <ul class="horiz-menu">
+    <ul class="horiz-menu" ng-show="isLoggedIn">
       <li ng-class="{'selected':'member-list' === activeState}">
         <a href="#" ng-click="goView('member-list')">Browse List</a></li>
       <li ng-class="{'selected':'name-search' === activeState}">

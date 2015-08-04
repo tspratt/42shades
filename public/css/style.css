@@ -33,7 +33,7 @@ input.filter-value{
   max-width: 100px;
 }
 
-button:hover {
+button:hover:enabled {
   color:rgba(0, 0, 0, 0.75);
 }
 
@@ -51,7 +51,16 @@ hr.menu {
   opacity: 0.60;
   border: 3px solid darkslateblue
 }
-
+.log-out {
+  float:right;
+  font-size: x-small;
+  font-weight: lighter;
+  cursor: pointer;
+}
+button.log-in {
+  float:right;
+  margin: 12px;
+}
 .content {
   padding: 20px;
 }

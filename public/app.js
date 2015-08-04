@@ -7,8 +7,12 @@ angular
       'self'                                                   // Allow same origin resource loads.
     ]);
 
-    $urlRouterProvider.otherwise('/member-list');
+    $urlRouterProvider.otherwise('/log-in');
     $stateProvider
+      .state('log-in', {
+        url: '/log-in',
+        templateUrl: '/views/log-in.html'
+      })
       .state('member-list', {
         url: '/member-list',
         templateUrl: '/views/member-list.html',
