@@ -17,16 +17,19 @@
   <span class="header">Club 42</span>
   <span class="description">&nbsp;(The Answer to Everything)</span>
   <br>
-  <ul class="horiz-menu">
-    <li ng-class="{'selected':'member-list' === activeState}">
-      <a href="#" ng-click="goView('member-list')">Browse List</a></li>
-    <li ng-class="{'selected':'name-search' === activeState}">
-      <a href="#" ng-click="goView('name-search')">Name Search</a></li>
-    <li ng-class="{'selected':'field-filter' === activeState}">
-      <a href="#" ng-click="goView('field-filter')">Filter</a></li>
-  </ul>
-  <hr>
-  <div ui-view=""></div>
+  <div class="content">
+    <ul class="horiz-menu">
+      <li ng-class="{'selected':'member-list' === activeState}">
+        <a href="#" ng-click="goView('member-list')">Browse List</a></li>
+      <li ng-class="{'selected':'name-search' === activeState}">
+        <a href="#" ng-click="goView('name-search')">Name Search</a></li>
+      <li ng-class="{'selected':'field-filter' === activeState}">
+        <a href="#" ng-click="goView('field-filter')">Filter</a></li>
+    </ul>
+    <hr class="menu">
+    <div ui-view=""></div>
+  </div>
+
 </div>
 
 

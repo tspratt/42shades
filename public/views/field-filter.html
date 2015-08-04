@@ -1,12 +1,12 @@
 <div>
-  <span>Filter on Field Value:</span>
+  <span>Filter Field:</span>
   <select ng-model="filterField" ng-change="onChangeField()">
-    <option value="state" selected>State (Abbrev.)</option>
+    <option value="state" selected>State</option>
     <option value="city">City</option>
     <option value="zip">Zip</option>
   </select>
 
-  <input id="inputFilterValue" type="text" placeholder="Filter Value"
+  <input id="inputFilterValue" type="text" placeholder="Value" class="filter-value"
          ng-model="filterValue" on-enter-key="onClickFilter()">
   <button ng-click="onClickFilter()">Find</button>
   <hr>
