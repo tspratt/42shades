@@ -57,6 +57,9 @@ hr.menu {
   font-weight: lighter;
   cursor: pointer;
 }
+.log-out:hover {
+  color:rgba(0, 0, 0, 0.75);
+}
 button.log-in {
   float:right;
   margin: 12px;
